@@ -19,9 +19,6 @@ LABEL_MAP = {
     19: "spider", 20:  "turkey", 21: "wolf"
 }
 
-os.environ['NUM_CLASSES'] = NUM_CLASSES
-os.environ['LABELS'] = LABELS
-os.environ['LABEL_MAP'] = LABEL_MAP
 
 class TEST(VisionDataset):
     def __init__(self,root, transform, target_transform):

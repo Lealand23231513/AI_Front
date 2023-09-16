@@ -2,15 +2,11 @@ import os
 import torch
 from torchvision import transforms
 from torchvision.datasets import   ImageFolder
-from dataset import TEST
 from torch.utils.data import DataLoader
 from torch import nn
 from torch.nn import functional as F
 import time
-
-NUM_CLASSES = os.environ['NUM_CLASSES']
-LABELS = os.environ['LABELS']
-LABEL_MAP = os.environ['LABEL_MAP']
+from dataset import NUM_CLASSES
 
 label2onehot = transforms.Lambda(lambda y: torch.zeros(
     NUM_CLASSES, dtype=torch.float).scatter_(dim=0, index=torch.tensor(y), value=1))
@@ -97,7 +93,6 @@ def main():
     batch_size = 64 #@param
     epochs = 5 #@param
     
-    
     train_dataset = ImageFolder(
         train_path,
         transform_labeled,
@@ -110,9 +105,6 @@ def main():
         num_workers=num_workers
     )
     
-
-    loss_fn = nn.CrossEntropyLoss()
-    optimizer = torch.optim.Adam(model.parameters(), lr = learning_rate)
     batch_time = AverageMeter('Time', ':6.3f')
     data_time = AverageMeter('Data', ':6.3f')
     losses = AverageMeter('Loss', ':.4e')
@@ -121,6 +113,8 @@ def main():
     print(f"Using {device} device")
 
     model = BersonNetwork().to(device)
+    optimizer = torch.optim.Adam(model.parameters(), lr = learning_rate)
+    loss_fn = nn.CrossEntropyLoss()
 
     start = time.time()
     for i in range(epochs):
@@ -145,6 +139,7 @@ def main():
         print(f"Epoch:{i + 1}: {batch_time}, {losses}")
     
     torch.save(model, 'model.path')
+    torch.save(model.state_dict(), 'model.path')
 
 if __name__ == '__main__':
    main()

@@ -1,2 +1,4 @@
-Animals/
+Animals
 model.path
+__pycache__
+Animal_cls.ipynb
