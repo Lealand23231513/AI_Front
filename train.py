@@ -8,9 +8,8 @@ from torch.nn import functional as F
 import time
 from dataset import NUM_CLASSES
 
-label2onehot = transforms.Lambda(lambda y: torch.zeros(
-    NUM_CLASSES, dtype=torch.float).scatter_(dim=0, index=torch.tensor(y), value=1))
 
+   
 transform_labeled = transforms.Compose(
     [
         transforms.Resize((64,64)),
@@ -84,14 +83,18 @@ def accuracy(output:torch.Tensor, target, topk=(1,)):
     return res
 
 def main():
+    pass
+
+if __name__ == '__main__':
+    label2onehot = transforms.Lambda(lambda y: torch.zeros(
+        NUM_CLASSES, dtype=torch.float).scatter_(dim=0, index=torch.tensor(y), value=1))
     data_path = 'Animals/Animals_Dataset' #@param
     train_path = os.path.normpath((os.path.join(data_path, 'train')))
 
     batch_size = 16 #@param
-    num_workers = 0 #@param
+    num_workers = 2 #@param
     learning_rate = 1e-3 #@param
-    batch_size = 64 #@param
-    epochs = 5 #@param
+    epochs = 50 #@param
     
     train_dataset = ImageFolder(
         train_path,
@@ -140,6 +143,3 @@ def main():
     
     torch.save(model, 'model.path')
     torch.save(model.state_dict(), 'model.path')
-
-if __name__ == '__main__':
-   main()
