@@ -21,11 +21,12 @@ LABEL_MAP = {
 
 
 class TEST(VisionDataset):
-    def __init__(self,root, transform, target_transform):
+    def __init__(self,root, sample_nums, transform=None, target_transform=None):
         self.img_dir = root
         self.transform = transform
         self.target_transform = target_transform
-        self.samples = os.listdir(self.img_dir)
+        # self.samples = os.listdir(self.img_dir)
+        self.samples = [f'{i}.png' for i in range(sample_nums)]
 
     def __len__(self):
         
@@ -38,6 +39,8 @@ class TEST(VisionDataset):
         if self.transform:
             img = self.transform(img)
         return img
-    
+
+
+
 
 
